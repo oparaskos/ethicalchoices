@@ -1,5 +1,5 @@
 import seenreq from 'seenreq';
-import Crawler, { CrawlerRequestOptions, CrawlerRequestResponse } from "crawler";
+import Crawler, { CrawlerRequestOptions, CrawlerRequestResponse, CreateCrawlerOptions } from "crawler";
 import { Handler, Result } from "htmlmetaparser";
 import { Parser } from "htmlparser2";
 
@@ -10,6 +10,7 @@ let pageHandler = async (res: CrawlerRequestResponse, err: Error | null, result:
 
 export function initialize(
     domain: string,
+    crawlerOptions: CreateCrawlerOptions,
     _pageHandler: (res: Crawler.CrawlerRequestResponse, err: Error | null, result: Result) => Promise<any>
     ): Promise<{queue: (options: CrawlerRequestOptions) => Promise<void>}> {
     pageHandler = _pageHandler
@@ -17,6 +18,7 @@ export function initialize(
     const crawler = new Crawler({
         maxConnections: 5,
         rateLimit: 10,
+        ...crawlerOptions,
         callback: function (error, res, done) {
             (new Promise((resolve, reject) => {
                 if (error) {
@@ -29,7 +31,6 @@ export function initialize(
                                 if (res.options.recurse && result.links) {
                                     const links = result.links
                                         .filter((it) => new URL(it.href).hostname === res.request.uri.hostname);
-                                    console.trace(`queueing links ${links.join(', ')}`);
                                     for (const link of links) {
                                         await queue({ uri: link.href });
                                     }

@@ -3,8 +3,8 @@ import { Result } from "htmlmetaparser";
 type Product = any;
 
 export default (result: Result, res: CrawlerRequestResponse, product: Product) => {
-    const modernSlaveryAct = res.$(':contains("slavery"),:contains("Slavery")').length > 0;
-    const genderPayGap = res.$(':contains("Pay Gap"),:contains("pay gap"),:contains("Pay gap")').length > 0;
-    const livingWage = res.$('a:contains("Living Wage"),a:contains("Living wage"),a:contains("living wage")').length > 0;
+    const modernSlaveryAct = res.$('a:contains("slavery"),a:contains("Slavery")').first().attr("href");
+    const genderPayGap = res.$('a:contains("Pay Gap"),a:contains("pay gap"),a:contains("Pay gap")').first().attr("href");
+    const livingWage = res.$('a:contains("Living Wage"),a:contains("Living wage"),a:contains("living wage")').first().attr("href");
     return { modernSlaveryAct, genderPayGap, livingWage }
 }

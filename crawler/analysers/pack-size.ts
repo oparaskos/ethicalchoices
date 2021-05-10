@@ -2,15 +2,34 @@ import { CrawlerRequestResponse } from "crawler";
 import { Result } from "htmlmetaparser";
 type Product = any;
 
+function maxTextLength($: any, i: number): (this: any) => boolean {
+    return function(this: any) { 
+        const txt = $(this).text()
+        return txt.length < i && txt.length > 1;
+    }
+}
+
 export default (result: Result, res: CrawlerRequestResponse, product: Product) => {
-    let declaresPackQuantity = false;
-    if(res.$(':contains("Pack Size"), :contains("pack size"), :contains("Pack size")').length > 0)
-        declaresPackQuantity = true;
+
+    if (product.weight) return {};
+
+    let weight;
+    let packSizeContainers = res.$(':contains("Pack Size"), :contains("pack size"), :contains("Pack size")')
+        .filter(maxTextLength(res.$, 200))
+        .toArray()
+        .map(function (value) {
+            return res.$(value).text()
+        });
+    packSizeContainers = packSizeContainers.sort((s) => s.length)
+    const packSizeContainer = packSizeContainers[packSizeContainers.length - 1]
+    if (packSizeContainer) {
+        weight = packSizeContainer;
+    }
     const re = new RegExp(`${product.name}\s*[\(\)\[\]]?\d+(k?g)`, 'ig');
 
     res.$(`:contains("${product.name}")`).each((k, v) => {
-        if(res.$(this).text().match(re))
-            declaresPackQuantity = true;
+        const match = res.$(this).text().match(re)
+        if(match) weight = match[1];
     });
-    return { declaresPackQuantity }
+    return { weight }
 }
