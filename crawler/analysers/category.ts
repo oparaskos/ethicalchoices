@@ -3,7 +3,6 @@ import { Result } from "htmlmetaparser";
 type Product = any;
 
 const naiveKeywordLookup: {[word: string]: string} = {
-    course: 'education',
     case: 'accessories',
     system: 'technology',
     party: 'novelty',
@@ -33,6 +32,9 @@ const naiveKeywordLookup: {[word: string]: string} = {
     studies: 'education',
     food: 'grocery',
     foods: 'grocery',
+    frozen: 'grocery',
+    dinner: 'grocery',
+    gluten: 'grocery',
     language: 'education',
     paper: 'stationary',
     university: 'education',

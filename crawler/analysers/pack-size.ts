@@ -31,5 +31,6 @@ export default (result: Result, res: CrawlerRequestResponse, product: Product) =
         const match = res.$(this).text().match(re)
         if(match) weight = match[1];
     });
+    weight = weight?.trim();
     return { weight }
 }

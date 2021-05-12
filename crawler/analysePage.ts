@@ -40,8 +40,25 @@ export async function analysePage(result: Result, res: CrawlerRequestResponse, p
     return meta;
 }
 
+function getRDFaProp(result: Result, propname: string) {
+    const rdfaElement = result.rdfa?.find(it => !!it[propname])
+    const value = rdfaElement?.[propname] as Array<{'@value': string}>
+    return value[0]['@value']
+}
+
 export function findProductWithNoLinkedData(result: Result, res: CrawlerRequestResponse, product: Product) {
-    return [];
+    const ogTitle = getRDFaProp(result, 'og:title')
+    const ogDescription = getRDFaProp(result, 'og:description')
+    const ogImage = getRDFaProp(result, 'og:image')
+    const name = ogTitle ||  res.$('h1').first().text()
+    const description = ogDescription || result.html?.description
+    return [parseProduct({
+        '@context': 'https://schema.org/',
+        '@type': 'Product',
+        name,
+        description,
+        image: [ ogImage ]
+    }, res, result)];
 }
 
 export function parseProduct(product: Product, res: CrawlerRequestResponse, result: Result) {

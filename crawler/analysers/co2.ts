@@ -22,5 +22,6 @@ export default (result: Result, res: CrawlerRequestResponse, product: Product) =
     if (packSizeContainer) {
         carbonFootprint = packSizeContainer;
     }
+    carbonFootprint = carbonFootprint?.trim();
     return { carbonFootprint }
 }
