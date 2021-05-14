@@ -28,7 +28,7 @@ export default (result: Result, res: CrawlerRequestResponse, product: Product) =
     const re = new RegExp(`${product.name}\s*[\(\)\[\]]?\d+(k?g)`, 'ig');
 
     res.$(`:contains("${product.name}")`).each((k, v) => {
-        const match = res.$(this).text().match(re)
+        const match = res.$(v).text().match(re)
         if(match) weight = match[1];
     });
     weight = weight?.trim();

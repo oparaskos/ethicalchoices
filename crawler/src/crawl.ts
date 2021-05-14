@@ -1,7 +1,8 @@
-import seenreq from 'seenreq';
 import Crawler, { CrawlerRequestOptions, CrawlerRequestResponse, CreateCrawlerOptions } from "crawler";
 import { Handler, Result } from "htmlmetaparser";
+
 import { Parser } from "htmlparser2";
+import seenreq from 'seenreq';
 
 const seen = new seenreq();
 
@@ -53,7 +54,7 @@ export function initialize(
         return seen.exists(options.uri)
             .then((wasSeen: boolean) => {
                 if(!wasSeen) {
-                    console.log(options.uri)
+                    // console.log(options.uri)
                     crawler.queue(options)
                 }
             })

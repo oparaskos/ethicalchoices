@@ -37,6 +37,18 @@ export async function analysePage(result: Result, res: CrawlerRequestResponse, p
             console.error(e);
         }
     }
+    for (const key in analysers) {
+        try {
+            if (analysers[key].hasOwnProperty('afterAll')) {
+                const fn = analysers[key].afterAll
+                if (typeof(fn) === 'function') {
+                    Object.assign(meta, (await fn(result, res, product, meta)));
+                }
+            }
+        } catch(e) {
+            console.error(e);
+        }
+    }
     return meta;
 }
 
