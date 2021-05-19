@@ -1,11 +1,12 @@
-import { HeadingTwo, Paragraph } from '@tryflux/pixels-web-components';
-
 import { Column } from '../shared/layout/column'
+import { Link } from 'react-router-dom';
+import { Paragraph } from '@tryflux/pixels-web-components';
 import React from 'react';
 import { Row } from '../shared/layout/row'
 import { css } from '@emotion/css';
 
 interface SearchResultData {
+  _id: string;
   url?: string;
   name?: string;
   description?: string;
@@ -51,17 +52,17 @@ const productDescriptionStyle = css`
   overflow: hidden;
 `
 
-function SearchResult({ result }: { result: SearchResultData }) {
+function SearchResult({ searchString, result }: { searchString: string, result: SearchResultData }) {
 
   return (
     <Row additionalStyles={[rowStyle]}>
       <Column additionalStyles={[css`flex: 0 1 8rem`]}>
         <picture className={productImageStyle}>
-          <img src={result.image?.[0] || ''} />
+          <img alt="product" src={result.image?.[0] || ''} />
         </picture>
       </Column>
       <Column additionalStyles={[contentColumnStyle]}>
-        <HeadingTwo additionalStyles={[productHeadingStyle]}>{result.name}</HeadingTwo>
+        <Link to={`/product/${result._id}?q=${searchString}`} className={productHeadingStyle}>{result.name}</Link>
         <Paragraph additionalStyles={[productDescriptionStyle]}>{result.description}</Paragraph>
       </Column>
     </Row>

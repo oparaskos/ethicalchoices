@@ -5,12 +5,14 @@ import {
   shouldCrawl,
 } from "./analysePage";
 
+import { Client } from "@elastic/elasticsearch";
 import { CrawlerRequestResponse } from "crawler";
 import { Result } from "htmlmetaparser";
 import { createWriteStream } from "fs";
 import { initialize } from "./crawl";
 
 const writeStream = createWriteStream("results.jsonnd");
+const client = new Client({ node: 'http://localhost:9200' })
 
 async function handlePage(
   res: CrawlerRequestResponse,
@@ -42,6 +44,10 @@ async function handlePage(
       const product = { ...products[0], ...analyses };
       console.log(res.request.uri.href, product.name);
       writeStream.write(JSON.stringify(product) + "\n");
+      client.index({
+        index: 'products',
+        body: product
+      })
     }
   } catch(e) {
     console.error('Something went wrong with a page parse!')
@@ -49,14 +55,16 @@ async function handlePage(
 }
 
 const domains = [
-  "https://www.weirdfish.co.uk/p/new-arrivals/all/i/ponte-bamboo-maxi-dress-pearl-grey-marl-18660",
-  // "https://www.quorn.co.uk/",
-  // "https://nudefood.co.uk/",
-  // "https://www.naturli-foods.com/",
-  // "https://www.brewdog.com/",
-  // "https://www.decathlon.co.uk/"
-  // "https://uk.oneill.com/"
-  // "https://www.homebase.co.uk/"
+  "https://www.weirdfish.co.uk/",
+  "https://www.quorn.co.uk/",
+  "https://nudefood.co.uk/",
+  "https://www.naturli-foods.com/",
+  "https://www.brewdog.com/",
+  "https://www.decathlon.co.uk/",
+  "https://uk.oneill.com/",
+  "https://www.homebase.co.uk/",
+  "https://www.fjallraven.com/uk/en-gb",
+  "https://uk.huel.com/"
 ];
 
 Promise.all(domains.map((domain) => initialize(domain, { recurse: true }, handlePage)

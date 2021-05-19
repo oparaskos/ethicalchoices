@@ -53,10 +53,16 @@ export function decompose(input: Text, product: Product | null = null): any[] {
             }
         }
 
-
+        // Organic Cotton
         if (material.indexOf('organic') !== -1) {
             material = material.replace('organic', '').trim();
             result.isOrganic = true;
+        }
+
+        // Vegan Leather
+        if (material.indexOf('vegan') !== -1) {
+            material = material.replace('vegan', '').trim();
+            result.isVegan = true;
         }
         result.name = material;
         result.description = part.trim();

@@ -1,5 +1,6 @@
 import { GAINSBORO_GREY, TROPICAL_RAINFOREST_GREEN, TextColours } from '../../styles/local-color-palette';
 import { HeadingOne, HeadingTwo, Paragraph } from '@tryflux/pixels-web-components';
+import { useHistory, useLocation } from 'react-router';
 
 import { Container } from '../shared/layout/container'
 import React from 'react';
@@ -8,18 +9,41 @@ import nature from './assets/natural-4821583.svg';
 import searchIcon from './assets/search-1.svg';
 
 const searchInputStyle = css`
+  position: absolute;
   width: 100%;
-  height: 3rem;
+  height: 100%;
   padding: 0.2rem 1rem;
   outline: none;
   border: 1px solid ${GAINSBORO_GREY.value};
   font-size: 1.5rem;
   border-radius: 0.5rem;
+  box-sizing: border-box;
+`;
+const searchButtonStyle = css`
+  position: absolute;
+  z-index: 2;
+  right: 1rem;
+  top: 0.5rem;
+  border: 0 none;
+  width: 2rem;
+  height: 2rem;
+  padding: 0.2rem 1rem;
+  outline: none;
+  font-size: 1.5rem;
+  border-radius: 0.5rem;
+  background: transparent;
   background-image: url(${searchIcon});
-  background-position: calc(100% - 1rem) center;
+  background-position: center;
   background-size: 2rem 2rem;
   background-repeat: no-repeat;
+  color: transparent;
+`;
+
+const searchContainerStyle = css`
   box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  height: 3rem;
 `;
 
 const headerStyle = css`
@@ -43,12 +67,23 @@ const headerStyle = css`
 `;
 
 function App() {
+  const history = useHistory();
+  function doSearch(e: any) {
+    if (e.target.search?.value) {
+      history.push(`/products?q=${e.target.search?.value}`);
+    }
+    e.preventDefault();
+    return false;
+  }
   return (
     <>
       <header className={headerStyle}>
         <Container>
           <HeadingOne>Product Carbon Footprint Database</HeadingOne>
-          <input className={searchInputStyle} placeholder="Type a product name to begin" />
+          <form onSubmit={doSearch} className={searchContainerStyle}>
+            <input name='search' className={searchInputStyle} placeholder="Type a product name to begin" />
+            <button className={searchButtonStyle} type="submit">Search</button>
+          </form>
         </Container>
       </header>
       <main>
