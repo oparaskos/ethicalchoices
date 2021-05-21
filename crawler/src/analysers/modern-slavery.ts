@@ -4,5 +4,7 @@ type Product = any;
 
 export default (result: Result, res: CrawlerRequestResponse, product: Product) => {
     const modernSlaveryActStatement = res.$('a:contains("slavery"),a:contains("Slavery")').first().attr("href")
-    return { modernSlaveryActStatement }
+    return {
+        modernSlaveryActStatement: modernSlaveryActStatement ? new URL(modernSlaveryActStatement, res.request.uri.href).href : undefined,
+    };
 }

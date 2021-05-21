@@ -3,6 +3,7 @@ import { HeadingOne, HeadingTwo, Paragraph } from '@tryflux/pixels-web-component
 import { useHistory, useLocation } from 'react-router';
 
 import { Container } from '../shared/layout/container'
+import { Link } from 'react-router-dom';
 import React from 'react';
 import { css } from '@emotion/css';
 import nature from './assets/natural-4821583.svg';
@@ -66,6 +67,12 @@ const headerStyle = css`
   }
 `;
 
+const mainStyle = css`
+  section {
+    margin: 2rem 0;
+  }
+`;
+
 function App() {
   const history = useHistory();
   function doSearch(e: any) {
@@ -86,36 +93,47 @@ function App() {
           </form>
         </Container>
       </header>
-      <main>
-        <section>
-          <Container>
+      <main className={mainStyle}>
+        <Container>
+          <section>
             <HeadingTwo>About this database</HeadingTwo>
             <Paragraph>
               This database is compiled through the collection of multiple publicly available sources of data and uses a
-              "Web Crawler" to try to keep up to date and provide the most accurate information possible.
+              <a href="https://www.cloudflare.com/en-gb/learning/bots/what-is-a-web-crawler/">"Web Crawler"</a> to try to keep up to
+              date and provide the most accurate information possible.
             </Paragraph>
-          </Container>
-        </section>
-        <section>
-          <Container>
-            <HeadingTwo>I want to feature my product(s) here</HeadingTwo>
             <Paragraph>
-              Where possible the information on this databse is collected directly from retailers.
-              For more information Click here. If the carbon footprint information is already available on your site you
-              can submit a URL below and our crawler will get to work...
+              Where available the Web Crawler will pull semantic information from linked-data
+              structures on the page such as RDFa or microdata markup, or <a href="https://moz.com/blog/json-ld-for-beginners">JSON-LD</a> scripts.
+              If no structured data is available the crawler will attempt to make a best guess
+              about the core product metadata from the content on the page.
+            </Paragraph>
+            <Paragraph>
+              Where not directly available, then a guess is made the carbon footprint is based on the weight of the item
+              or the cost and a carbon emissions factor, the breakdown may be based on a different set of data and so
+              may not line up exactly.
+            </Paragraph>
+          </section>
+          <section>
+            <HeadingTwo>I want to add to or update the database</HeadingTwo>
+            <Paragraph>
+              Where possible the information on this database is collected directly from retailers.
+              For more information <Link to="/how-it-works">Click here</Link>. If the carbon footprint
+              information is already available on your site you can submit a URL below and our
+              crawler will get to work...
             </Paragraph>
 
             <Paragraph>
               To learn more about how to make sure that our crawler can read an understand your product page,
-              and to ensure that the data you provide is accurate and up to date. Click here
+              and to ensure that the data you provide is accurate and up to date <Link to="/retailers">Click here</Link>.
             </Paragraph>
-          </Container>
-        </section>
-        <section>
-          <Container>
-            <HeadingTwo>I've found inaccurate data, or don't want my products to show here</HeadingTwo>
-          </Container>
-        </section>
+
+            <form>
+              <input name='domain' placeholder="https://shop.example.com" />
+              <button>Add</button>
+            </form>
+          </section>
+        </Container>
       </main>
     </>
   );

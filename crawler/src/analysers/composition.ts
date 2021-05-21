@@ -3,7 +3,7 @@ import { Product } from "../Product";
 import { Result } from "htmlmetaparser";
 import { decompose } from "../composition/decompose";
 
-const clothingIngredients = [
+export const clothingIngredients = [
     'cotton',
     'elastane',
     'flax',
@@ -19,11 +19,11 @@ const clothingIngredients = [
     'acetate',
     'pvc',
     'neoprene',
-    'acrylic'
+    'acrylic',
+    'felt'
 ]
 
 export function afterAll(result: Result, res: CrawlerRequestResponse, product: Product, meta: Product) {
-    console.log(product)
     if (!product.composition && meta.composition) {
         let comp = meta.composition;
         if (Array.isArray(comp)) {

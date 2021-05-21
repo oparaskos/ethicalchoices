@@ -111,7 +111,7 @@ function Search() {
       </header>
       <main>
         <Container>
-          { results.map(result => <SearchResult searchString={searchString} key={result.pageUri} result={result} />) }
+          { results.map(result => <SearchResult searchString={searchString} key={result.url} result={result} />) }
         </Container>
       </main>
     </>

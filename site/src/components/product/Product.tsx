@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { TROPICAL_RAINFOREST_GREEN, TextColours } from '../../styles/local-color-palette';
 
 import { ReactComponent as BackArrow } from './assets/arrow-left.svg';
+import { CarbonFootprintBadge } from '../badges/carbon-footprint/carbon-footprint';
 import { Column } from '../shared/layout/column';
 import { Container } from '../shared/layout/container'
 import { OrganicBadge } from '../badges/organic/organic';
@@ -107,9 +108,10 @@ function Product() {
               <Column>
                 <HeadingTwo><Brand product={product} /> {product.name}</HeadingTwo>
                 <Paragraph>{product.description}</Paragraph>
-                <div>
-                  {product.isOrganic && <OrganicBadge></OrganicBadge>}
-                  {product.isVegan && <VeganBadge></VeganBadge>}
+                <div className={css`display: flex; flex-direction: row;`}>
+                  {product.isOrganic && <OrganicBadge />}
+                  {product.isVegan && <VeganBadge />}
+                  {product.carbonFootprint && <CarbonFootprintBadge carbonFootprint={product.carbonFootprint} />}
                 </div>
               </Column>
             </Row>

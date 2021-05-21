@@ -17,7 +17,7 @@ export function initialize(
     pageHandler = _pageHandler
     let queue = async (options: CrawlerRequestOptions) => null;
     const crawler = new Crawler({
-        maxConnections: 5,
+        maxConnections: 20,
         rateLimit: 10,
         ...crawlerOptions,
         callback: function (error, res, done) {

@@ -76,6 +76,6 @@ export function findProductWithNoLinkedData(result: Result, res: CrawlerRequestR
 export function parseProduct(product: Product, res: CrawlerRequestResponse, result: Result) {
     return {
         ...product,
-        pageUri: res.request.uri.href
+        url: res.request.uri.href
     }
 }
