@@ -40,29 +40,35 @@ function containsCo2Disclosure($: any, i: number): (this: any) => boolean {
         return txt.length < i &&  /[\d\.]+\s*k?g.{1,20}c\s*o\s*2\s*e?/sig.test(txt);
     }
 }
-
+const re = /^\d{2}\.?\d+$/;
 export function afterAll(result: Result, res: CrawlerRequestResponse, product: Product, meta: Product) {
     const p = {...product, ...meta};
     const categories = p.category;
     let esimatedEmissionsByGBP = categories.map((it: string) => {
-        if (/\d{2}\.?\d+/.test(it)) {
-            var next = it;
+        if (re.test(it)) {
+            let next = it;
+            let i = 0;
             do {
                 const matched = emissionsByGBP.find(em => em[0] == next)
                 if (matched) { return {
                     'kgCO2e/GBP': matched[2],
-                    because: `product matched the category ${matched[0]} (${matched[1]})`
+                    because: `product matched the category ${matched[0]} (${matched[1]})`,
+                    category: `${matched[0]} ${matched[1]}`
                 }; }
-                next = it.substring(-1);
-            } while(next.length >= 2);
+                console.log(it);
+                next = it.substring(0, it.length - 2);
+            } while(next.length >= 2 && (++i) < 3);
         }
     })
     .filter((it: any) => !!it);
-    if (!p.carbonFootprint && p.offers?.length > 0) {
+    if (!p.carbonFootprint && p.offers?.length > 0 && esimatedEmissionsByGBP.length > 0) {
         const prices = p.offers
+            .filter((it: any) => !it.priceCurrency || it.priceCurrency.toUpperCase() === 'GBP')
             .map((it: any) => it.price)
-            .map((it: string) => {
+            .map((it: string | number) => {
                 try {
+                    if (typeof it === 'number')
+                        return it;
                     return parseFloat(it.replace('£', ''))
                 } catch(e) {
                     return;
@@ -72,6 +78,7 @@ export function afterAll(result: Result, res: CrawlerRequestResponse, product: P
             .filter((it: any) => !isNaN(it))
             .filter((it: any) => isFinite(it))
         const emissionsFactor = Math.max(...(esimatedEmissionsByGBP.map((it: any) => it['kgCO2e/GBP'])))
+        const emissionsFactorCategory = esimatedEmissionsByGBP.find((it: any) => it['kgCO2e/GBP'] == emissionsFactor)?.category
         const price = Math.max(...prices);
         const co2eFromPrice = price * emissionsFactor
         console.log({prices, emissionsFactor})
@@ -79,7 +86,7 @@ export function afterAll(result: Result, res: CrawlerRequestResponse, product: P
             esimatedEmissionsByGBP,
             carbonFootprint: {
                 estimate: co2eFromPrice,
-                basedOn: `Estimated emissions of ${emissionsFactor} kgCO2e per £1 for products in this category, and the cost of £${price} of the item`
+                basedOn: `Estimated emissions of ${emissionsFactor.toFixed(4)} kgCO2e per £1 for products in the category ${emissionsFactorCategory}, and the cost of £${price} of the item`
             }
         }
     }

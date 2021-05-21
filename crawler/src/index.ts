@@ -13,6 +13,15 @@ import { createHash } from "crypto";
 import { createWriteStream } from "fs";
 import { initialize } from "./crawl";
 
+console.debug = () => {};
+
+
+
+
+
+
+
+
 const writeStream = createWriteStream("results.jsonnd");
 let client = new Client({ node: 'http://localhost:9200' })
 
@@ -50,6 +59,7 @@ async function handlePage(
       products.push(...findProductWithNoLinkedData(result, res, result));
     }
 
+    console.log(result.html?.title, products.length + ' products');
     if (products.length === 1) {
       const analyses = await analysePage(result, res, products[0]);
       const product = { ...products[0], ...analyses };
@@ -72,7 +82,7 @@ const domains = [
   "https://www.quorn.co.uk/",
   "https://nudefood.co.uk/",
   "https://www.naturli-foods.com/",
-  // "https://www.brewdog.com/",
+  "https://www.brewdog.com/",
   "https://www.decathlon.co.uk/",
   "https://uk.oneill.com/",
   "https://www.homebase.co.uk/",
@@ -96,4 +106,4 @@ const domains = [
 ];
 
 Promise.all(domains.map((domain) => initialize(domain, { recurse: true }, handlePage)
-  .then(async ({ queue }) => queue({ uri: domain }))));
+  .then(async ({ queue }) => queue({ uri: domain }), (e) => console.error(e))));

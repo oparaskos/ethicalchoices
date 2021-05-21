@@ -27,6 +27,7 @@ export function findProductInLinkedData(a: any, res: CrawlerRequestResponse, res
 
 export async function analysePage(result: Result, res: CrawlerRequestResponse, product: Product) {
     const meta = {};
+    let d = new Date();
     for (const key in analysers) {
         try {
             let fn = analysers[key];
@@ -36,6 +37,9 @@ export async function analysePage(result: Result, res: CrawlerRequestResponse, p
         } catch(e) {
             console.error(e);
         }
+        const u = new Date();
+        console.debug(key, 'took ' + (u.getTime() - d.getTime()) + ' ms');
+        d = u;
     }
     for (const key in analysers) {
         try {
@@ -48,6 +52,9 @@ export async function analysePage(result: Result, res: CrawlerRequestResponse, p
         } catch(e) {
             console.error(e);
         }
+        const u = new Date();
+        console.debug(key, ' (afterAll) took ' + (u.getTime() - d.getTime()) + ' ms');
+        d = u;
     }
     return meta;
 }

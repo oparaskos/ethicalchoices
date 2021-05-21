@@ -155,7 +155,7 @@ const textileSynonyms = ['blanket', 'rug', 'bedding', 'duvet', 'sheet', 'curtain
 const furApparelSynonyms = ['fur', 'mink'];
 const leatherSynonyms = ['leather', 'calfskin'];
 const footwearSynonyms = ['footwear', 'shoe', 'boot', 'slipper'];
-const wearingApparelSynonyms = ['garment', 'clothing', 'wear', 'tshirt', 'jumper', 'cardigan', 'dress', 'shirt', 'trousers', 'chinos', 'jeans', 'waisted', 'crop', 'bra', 'panties', 'knickers', 'boxers', 'sock', 'shorts', 'jacket', 'coat', 'blouse', 'blazer', 'lingere', 'loungewear', 'nightwear', 'pyjama'];
+const wearingApparelSynonyms = ['garment', 'clothing', 'wear', 't-shirt', 'jumper', 'cardigan', 'dress', 'shirt', 'trousers', 'chinos', 'jeans', 'waisted', 'crop', 'bra', 'panties', 'knickers', 'boxers', 'sock', 'shorts', 'jacket', 'coat', 'blouse', 'blazer', 'lingere', 'loungewear', 'nightwear', 'pyjama'];
 const knitApparelSynonyms = ['knit', 'crochet', 'woven'];
 const woodStrawNonFurnitureSynonyms = ['wood', 'straw', 'oak', 'cherry', 'walnut', 'sapele', 'mahogany', 'chestnut', 'pine', 'maple'];
 const paperSynonyms = ['paper', 'parchment', 'paperboard', 'card', 'cardboard', 'greyboard', 'bookboard'];
@@ -171,8 +171,11 @@ function containsSic(category: string | string[]): boolean {
 // Find best matching SIC category code from keywords in the name and description
 function findSicManufacturingCategory(productName: string, productDescription: string): string[] {
     const corpus = (productName + ' ' + productDescription).toLowerCase()
-        .replace(/[^\w\d]+/g, ' ')
-        .split(' ');
+        .replace(/[^\w\d\-]+/ig, ' ')
+        .split(/\s+/)
+        .filter((it) => it.length > 3)
+        .filter((v, i, a) => a.indexOf(v) === i);
+    console.debug(corpus);
     let matchedCategories = [];
     // Division 10: Manufacture of food products
     // Group 10.1: Processing and preserving of meat and production of meat products
@@ -246,6 +249,7 @@ function findSicManufacturingCategory(productName: string, productDescription: s
     if (electricalSynonyms.some(it => corpus.indexOf(it) !== -1)) matchedCategories.push('27');
     // Division 31: Manufacture of furniture
     if (furnitureSynonyms.some(it => corpus.indexOf(it) !== -1)) matchedCategories.push('31');
+console.debug({matchedCategories});
     // Fix-up matches in multiple categories for beverages
     if (matchedCategories
         .find(it => it.startsWith('11') && it != '11.07')) {
@@ -257,12 +261,31 @@ function findSicManufacturingCategory(productName: string, productDescription: s
             matchedCategories.splice(softDrinkElem, 1);
         }
     }
+    
     // If we have wood _and_ furniture, then choose furniture.
     if (matchedCategories.find(it => it.startsWith('31'))) {
         var i = 0;
         do {
             i = matchedCategories.findIndex(it => it.startsWith('16'))
-            matchedCategories.splice(i, 1);
+            if (i !== -1) matchedCategories.splice(i, 1);
+        } while (i !== -1);
+    }
+
+    // If we have fashion _and_ food/drink, then choose fashion as food and drink are often used to describe colour/texture (cream, creamy, peach, merlot etc.)
+    if (matchedCategories.find(it => it.startsWith('14') || it.startsWith('13') || it.startsWith('15.2'))) {
+        var i = 0;
+        do {
+            i = matchedCategories.findIndex(it => it.startsWith('10') || it.startsWith('11'))
+            if (i !== -1) matchedCategories.splice(i, 1);
+        } while (i !== -1);
+    }
+
+    // Treat wearing apparel as more-specific than textiles
+    if (matchedCategories.find(it => it.startsWith('14'))) {
+        var i = 0;
+        do {
+            i = matchedCategories.findIndex(it => it.startsWith('13') || it.startsWith('15.2'))
+            if (i !== -1) matchedCategories.splice(i, 1);
         } while (i !== -1);
     }
 
