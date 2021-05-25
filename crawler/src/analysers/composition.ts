@@ -20,7 +20,8 @@ export const clothingIngredients = [
     'pvc',
     'neoprene',
     'acrylic',
-    'felt'
+    'felt',
+    'lambskin'
 ]
 
 export function afterAll(result: Result, res: CrawlerRequestResponse, product: Product, meta: Product) {

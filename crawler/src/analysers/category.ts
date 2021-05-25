@@ -4,131 +4,6 @@ import { clothingIngredients } from './composition';
 
 type Product = any;
 
-const naiveKeywordLookup: {[word: string]: string} = {
-    case: 'accessories',
-    system: 'technology',
-    party: 'novelty',
-    parties: 'novelty',
-    information: 'technology',
-    informations: 'technology',
-    home: 'household',
-    power: 'technology',
-    room: 'household',
-    court: 'sport',
-    car: 'automotive',
-    road: 'automotive',
-    face: 'wellness',
-    education: 'education',
-    office: 'stationary',
-    body: 'wellness',
-    bodies: 'wellness',
-    health: 'wellness',
-    healths: 'wellness',
-    mother: 'gift',
-    period: 'wellness',
-    book: 'stationary',
-    age: 'wellness',
-    support: 'wellness',
-    care: 'wellness',
-    study: 'education',
-    studies: 'education',
-    food: 'grocery',
-    foods: 'grocery',
-    frozen: 'grocery',
-    dinner: 'grocery',
-    gluten: 'grocery',
-    language: 'education',
-    paper: 'stationary',
-    university: 'education',
-    universities: 'education',
-    computer: 'technology',
-    hair: 'wellness',
-    growth: 'wellness',
-    relationship: 'wellness',
-    treatment: 'wellness',
-    energies: 'wellness',
-    technology: 'technology',
-    technologies: 'technology',
-    garden: 'household',
-    style: 'fashion',
-    fish: 'grocery',
-    oil: 'wellness',
-    television: 'technology',
-    blood: 'wellness',
-    software: 'technology',
-    radio: 'technology',
-    baby: 'wellness',
-    babies: 'wellness',
-    machine: 'technology',
-    sex: 'wellness',
-    tea: 'grocery',
-    dog: 'pet',
-    cat: 'pet',
-    hamster: 'pet',
-    horse: 'pet',
-    stock: 'grocery',
-    kitchen: 'household',
-    plant: 'household',
-    bar: 'grocery',
-    foot: 'wellness',
-    feet: 'wellness',
-    pain: 'wellness',
-    farm: 'grocery',
-    video: 'technology',
-    videos: 'technology',
-    tv: 'technology',
-    tvs: 'technology',
-    telephone: 'technology',
-    coffee: 'grocery',
-    phone: 'technology',
-    exercise: 'wellness',
-    wine: 'grocery',
-    china: 'household',
-    neck: 'wellness',
-    drug: 'wellness',
-    lunch: 'grocery',
-    lunches: 'grocery',
-    brain: 'wellness',
-    drink: 'grocery',
-    sport: 'wellness',
-    fashion: 'fashion',
-    vehicle: 'automotive',
-    van: 'automotive',
-    meal: 'grocery',
-    breakfast: 'grocery',
-    motor: 'automotive',
-    beauty: 'wellness',
-    beauties: 'wellness',
-    vision: 'wellness',
-    fuel: 'automotive',
-    bedroom: 'household',
-    fruit: 'grocery',
-    bottle: 'grocery',
-    dress: 'fashion',
-    dresses: 'fashion',
-    bath: 'household',
-    sugar: 'grocery',
-    bread: 'grocery',
-    meat: 'grocery',
-    restaurant: 'grocery',
-    sweet: 'grocery',
-    savoury: 'grocery',
-    chocolate: 'grocery',
-    cocktail: 'grocery',
-    sausage: 'grocery',
-    burger: 'grocery',
-    bun: 'grocery',
-    snack: 'grocery',
-    mouthful: 'grocery',
-    mouthfuls: 'grocery',
-    milk: 'grocery',
-    nut: 'grocery',
-    protein: 'grocery',
-    saturates: 'grocery',
-    saturated: 'grocery',
-    golf: 'wellness',
-};
-
 const meatSynonyms = ['meat', 'pork', 'beef', 'lamb', 'chicken', 'veal', 'burger'];
 const fishSynonyms = ['fish'];
 const fruitVegSynonyms = ['fruit', 'vegetable'];
@@ -155,7 +30,7 @@ const textileSynonyms = ['blanket', 'rug', 'bedding', 'duvet', 'sheet', 'curtain
 const furApparelSynonyms = ['fur', 'mink'];
 const leatherSynonyms = ['leather', 'calfskin'];
 const footwearSynonyms = ['footwear', 'shoe', 'boot', 'slipper'];
-const wearingApparelSynonyms = ['garment', 'clothing', 'wear', 't-shirt', 'jumper', 'cardigan', 'dress', 'shirt', 'trousers', 'chinos', 'jeans', 'waisted', 'crop', 'bra', 'panties', 'knickers', 'boxers', 'sock', 'shorts', 'jacket', 'coat', 'blouse', 'blazer', 'lingere', 'loungewear', 'nightwear', 'pyjama'];
+const wearingApparelSynonyms = ['vest', 'sleeveless', 'waistline', 'sweatshirt', 'garment', 'clothing', 'wear', 't-shirt', 'jumper', 'cardigan', 'dress', 'shirt', 'trousers', 'chinos', 'jeans', 'waisted', 'crop', 'bra', 'panties', 'knickers', 'boxers', 'sock', 'shorts', 'jacket', 'coat', 'blouse', 'blazer', 'lingere', 'loungewear', 'nightwear', 'pyjama'];
 const knitApparelSynonyms = ['knit', 'crochet', 'woven'];
 const woodStrawNonFurnitureSynonyms = ['wood', 'straw', 'oak', 'cherry', 'walnut', 'sapele', 'mahogany', 'chestnut', 'pine', 'maple'];
 const paperSynonyms = ['paper', 'parchment', 'paperboard', 'card', 'cardboard', 'greyboard', 'bookboard'];
@@ -249,7 +124,7 @@ function findSicManufacturingCategory(productName: string, productDescription: s
     if (electricalSynonyms.some(it => corpus.indexOf(it) !== -1)) matchedCategories.push('27');
     // Division 31: Manufacture of furniture
     if (furnitureSynonyms.some(it => corpus.indexOf(it) !== -1)) matchedCategories.push('31');
-console.debug({matchedCategories});
+    console.debug({ matchedCategories });
     // Fix-up matches in multiple categories for beverages
     if (matchedCategories
         .find(it => it.startsWith('11') && it != '11.07')) {
@@ -309,19 +184,6 @@ export default (result: Result, res: CrawlerRequestResponse, product: Product) =
         } else {
             return { category: [product.category, ...sic].filter(it => !!it)};
         }
-    } else {
-        return {};
     }
-    
-    const searchDomain = product.name + ' ' + product.description;
-    return {
-        category: [searchDomain.toLocaleLowerCase()
-            .replace(/[^\s\w\d]+/ig, '')
-            .split(/[\s\b]+/)
-            .map((word) => {
-                return naiveKeywordLookup[word]
-            })
-            .filter((a) => !!a)
-            .filter((v, i, a) => a.indexOf(v) === i), ...sic].filter(it => !!it)
-    }
+    return {};
 }

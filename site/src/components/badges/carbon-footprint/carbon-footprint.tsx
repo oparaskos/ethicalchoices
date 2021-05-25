@@ -30,7 +30,7 @@ function toFootprintString(carbonFootprint: any): React.ReactNode {
     }
   }
 
-  return <>carbonFootprint</>;
+  return <>{carbonFootprint}</>;
 }
 
 export const CarbonFootprintBadge: React.FC<{additionalStyles?: string[], carbonFootprint: string | any | any[] | string[]}> = ({
@@ -42,6 +42,6 @@ export const CarbonFootprintBadge: React.FC<{additionalStyles?: string[], carbon
   return (
   <Badge additionalStyles={[...additionalStyles, badgeStyle]}>
     <Icon />
-    <span className={co2Style}>{co2string}</span>
+    <span title={carbonFootprint?.basedOn} className={co2Style}>{co2string}</span>
   </Badge>
 )};

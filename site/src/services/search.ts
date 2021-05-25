@@ -3,3 +3,7 @@ export function getResults(searchString: string) {
     if(searchString) url.searchParams.append('q', searchString);
     return fetch(url.toString()).then(data => data.json())
 }
+
+export function getById(id: string) {
+    return fetch(`http://localhost:9200/products/_doc/${id}`).then(data => data.json())
+}

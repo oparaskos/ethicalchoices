@@ -1,0 +1,59 @@
+{
+  "dynamic_templates": [
+    {
+      "default_template": {
+        "path_match": "*",
+        "mapping": {
+          "index": false
+        }
+      }
+    }
+  ],
+  "properties": {
+    "@type": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    },
+    "name": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    },
+    "description": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    },
+    "category": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    },
+    "isOrganic": {
+      "type": "boolean"
+    },
+    "isVegan": {
+      "type": "boolean"
+    },
+    "isVegetarian": {
+      "type": "boolean"
+    }
+  }
+}

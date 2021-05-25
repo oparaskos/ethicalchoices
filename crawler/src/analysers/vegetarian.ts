@@ -3,7 +3,7 @@ import { Result } from "htmlmetaparser";
 type Product = any;
 
 export default (result: Result, res: CrawlerRequestResponse, product: Product) => {
-    const isVegan = res.$(':contains("vegan"),:contains("Vegan")').length > 0;
-    const isVegetarian = isVegan || res.$(':contains("Vegetarian"),:contains("vegetarian")').length > 0;
+    const isVegan = (product.name + ' ' + product.description).toLowerCase().indexOf('vegan') !== -1;
+    const isVegetarian = isVegan || (product.name + ' ' + product.description).toLowerCase().indexOf('vegetarian') !== -1;
     return { isVegan, isVegetarian }
 }

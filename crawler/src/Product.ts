@@ -1,7 +1,13 @@
-import { Product as BaseProduct, QuantitativeValue, Text } from 'schema-dts'
+import { Product as BaseProduct, Number, QuantitativeValue, Text } from 'schema-dts'
 
+export interface CarbonFootprint {
+    estimate?: Number | Text,
+    measurement?: Number | Text,
+    basedOn?: Text,
+}
 export interface ProductExt {
-    composition: Text | Text[];
+    composition?: Text | Text[];
+    carbonFootprint?: Text | CarbonFootprint;
 }
 
 export interface ProductComponent {

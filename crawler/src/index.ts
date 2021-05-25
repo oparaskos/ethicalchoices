@@ -5,33 +5,25 @@ import {
   shouldCrawl,
 } from "./analysePage";
 
+import { Brand } from "schema-dts";
 import { Client } from "@elastic/elasticsearch";
 import { CrawlerRequestResponse } from "crawler";
-import { Product } from "schema-dts";
+import { Product } from "./Product";
 import { Result } from "htmlmetaparser";
-import { createHash } from "crypto";
 import { createWriteStream } from "fs";
+import { gzipSync } from "zlib";
 import { initialize } from "./crawl";
+import { normaliseProduct } from "./normaliseProduct";
 
 console.debug = () => {};
 
-
-
-
-
-
-
-
 const writeStream = createWriteStream("results.jsonnd");
-let client = new Client({ node: 'http://localhost:9200' })
+const client = new Client({ node: 'http://localhost:9200' })
 
 function genId(product: Product) {
-  const a = product.name?.toString();
-  const b = product.url?.toString();
-  const hash = createHash('md5');
-  hash.push(a);
-  hash.push(b);
-  return hash.digest().toString('base64');
+  const a = product.name?.toString() || '';
+  const b = product.url?.toString() || '';
+  return gzipSync(Buffer.from(a + b)).toString('base64url');
 }
 
 async function handlePage(
@@ -62,7 +54,9 @@ async function handlePage(
     console.log(result.html?.title, products.length + ' products');
     if (products.length === 1) {
       const analyses = await analysePage(result, res, products[0]);
-      const product = { ...products[0], ...analyses };
+      let product = { ...products[0], ...analyses } as Product;
+      product = normaliseProduct(product);
+      
       console.log(product);
       writeStream.write(JSON.stringify(product) + "\n");
       client.index({
@@ -73,7 +67,7 @@ async function handlePage(
       });
     }
   } catch(e) {
-    console.error('Something went wrong with a page parse!')
+    console.error(e)
   }
 }
 
@@ -88,7 +82,7 @@ const domains = [
   "https://www.homebase.co.uk/",
   "https://www.diy.com/",
   "https://www.wickes.co.uk/",
-  "https://www.fjallraven.com/uk/en-gb",
+  "https://www.fjallraven.com/",
   "https://uk.huel.com/",
   "https://www.myprotein.com/",
   "https://www.thehut.com",
@@ -102,7 +96,16 @@ const domains = [
   "https://www.petsathome.com/",
   "https://www.bighams.com",
   "https://www.abelandcole.co.uk/",
-  "https://www.oddbox.co.uk/"
+  "https://www.oddbox.co.uk/",
+  "https://www.seasaltcornwall.co.uk/",
+  "https://www.fatface.com/",
+  "https://www.clarks.co.uk/",
+  "https://www.nike.com/gb/",
+  "https://www.adidas.co.uk/",
+  "https://www.next.co.uk/",
+  "https://www.drmartens.com/",
+  "https://www.thenorthface.co.uk/",
+
 ];
 
 Promise.all(domains.map((domain) => initialize(domain, { recurse: true }, handlePage)

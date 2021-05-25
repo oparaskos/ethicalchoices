@@ -1,17 +1,19 @@
-import { HeadingTwo, Paragraph } from '@tryflux/pixels-web-components';
+import { HeadingThree, HeadingTwo, Paragraph } from '@tryflux/pixels-web-components';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import { TROPICAL_RAINFOREST_GREEN, TextColours } from '../../styles/local-color-palette';
+import { SNOW_PINK, TROPICAL_RAINFOREST_GREEN, TextColours } from '../../styles/local-color-palette';
 
 import { ReactComponent as BackArrow } from './assets/arrow-left.svg';
 import { CarbonFootprintBadge } from '../badges/carbon-footprint/carbon-footprint';
 import { Column } from '../shared/layout/column';
 import { Container } from '../shared/layout/container'
 import { OrganicBadge } from '../badges/organic/organic';
+import { PriceBadge } from '../badges/price/price';
 import { Row } from '../shared/layout/row';
 import { VeganBadge } from '../badges/vegan/vegan';
 import { css } from '@emotion/css';
-import { getResults } from '../../services/search';
+import { findCategory } from './categories';
+import { getById } from '../../services/search';
 
 const productImageStyle = css`
   width: 14rem;
@@ -46,17 +48,21 @@ const backLinkStyle = css`
 
 const headerStyle = css`
   background: ${TROPICAL_RAINFOREST_GREEN.value};
-  
   margin: 0;
   overflow: hidden;
   padding: 1rem;
-
-  h1 {
-    font-size: 5rem;
-    text-align: center;
-    color: ${TextColours.TEXT_WHITE.value};
-    margin: 8rem 0;
+  [data-paragraph], [data-heading-two] {
+    color: ${TROPICAL_RAINFOREST_GREEN.contrastText?.value};
   }
+`;
+
+const categoryStyle = css`
+  display: inline-block;
+  background: ${SNOW_PINK.value};
+  color: ${SNOW_PINK.contrastText?.value};
+  border-radius: 2px;
+  padding: 0.1rem 0.4rem;
+  margin: 0.1rem 0.2rem;
 `;
 
 function ProductImage({ product }: any) {
@@ -71,7 +77,16 @@ function ProductImage({ product }: any) {
 }
 
 function Brand({ product }: any) {
-  return <span>{product?.brand}</span>;
+  return <span>{product?.brand?.name}</span>;
+}
+
+
+function categoryName(categoryId: string): null | string {
+  const parts = categoryId.split('.');
+  const division = parts[0];
+  const group = parts.length > 1 && parts[1][0];
+  const groupClass = parts.length > 1 && parts[1].length > 1 && parts[1][1];
+  return findCategory(division, group, groupClass)?.name || null;
 }
 
 function Product() {
@@ -83,8 +98,8 @@ function Product() {
   const [product, setProduct] = useState({} as any);
   useEffect(() => {
     (async () => {
-      const data = await getResults(`_id:${params.productId}`);
-      setProduct(data.hits.hits.map((it: any) => ({ ...it._source, _id: it._id }))[0]);
+      const data = await getById(params.productId);
+      setProduct(data._source);
     })();
   }, [setProduct, params]);
 
@@ -96,10 +111,6 @@ function Product() {
             <BackArrow />
             Back to Search Results
           </Link>
-        </Container>
-      </header>
-      <main>
-        <Container additionalStyles={[css`margin-top: 2rem; margin-bottom: 2rem;`]}>
           {product &&
             <Row>
               <Column additionalStyles={[css`flex-grow: 0;`]}>
@@ -109,12 +120,43 @@ function Product() {
                 <HeadingTwo><Brand product={product} /> {product.name}</HeadingTwo>
                 <Paragraph>{product.description}</Paragraph>
                 <div className={css`display: flex; flex-direction: row;`}>
+                  {product.carbonFootprint && <CarbonFootprintBadge carbonFootprint={product.carbonFootprint} />}
                   {product.isOrganic && <OrganicBadge />}
                   {product.isVegan && <VeganBadge />}
-                  {product.carbonFootprint && <CarbonFootprintBadge carbonFootprint={product.carbonFootprint} />}
+                  <span className={css`flex-grow: 1`} />
+                  {product.offers?.length > 0 && <PriceBadge offers={product.offers} url={product.url}/>}
                 </div>
               </Column>
             </Row>
+          }
+          <Row>
+            { product?.category?.map((category: string) => <div className={categoryStyle}>{categoryName(category)}</div>) }
+          </Row>
+        </Container>
+      </header>
+      <main>
+        <Container additionalStyles={[css`margin-top: 2rem; margin-bottom: 2rem;`]}>
+          {product &&
+            <>
+              {product?.material &&
+                <section>
+                  <HeadingThree>Composition</HeadingThree>
+                  <ul>
+                    {product?.material?.map((material: any, i: number) => <li key={i}>{material.description}</li>)}
+                  </ul>
+                </section>
+              }
+              {/* {product?.category &&
+                <section>
+                  <HeadingThree>{categoryName(product.category[0])}</HeadingThree>
+
+                </section>
+              } */}
+              <hr />
+              <section>
+                <div>{JSON.stringify(product)}</div>
+              </section>
+            </>
           }
         </Container>
       </main>
