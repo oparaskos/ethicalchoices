@@ -8,6 +8,7 @@ export interface CarbonFootprint {
 export interface ProductExt {
     composition?: Text | Text[];
     carbonFootprint?: Text | CarbonFootprint;
+    [key: string]: any;
 }
 
 export interface ProductComponent {

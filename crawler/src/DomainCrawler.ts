@@ -1,22 +1,34 @@
 import Crawler, { CrawlerRequestOptions, CrawlerRequestResponse, CreateCrawlerOptions } from "crawler";
 import { Handler, Result } from "htmlmetaparser";
+import { Organization, WebSite } from "schema-dts";
 
 import { Parser } from "htmlparser2";
 import { Robots } from "./robots-txt-parser/robots";
 import seenreq from 'seenreq';
 
+export const DEFAULT_MAX_CONNECTIONS = 10;
+export const DEFAULT_CRAWL_DELAY = 10;
+
 export abstract class DomainCrawler {
-    private seen;
-    private initialised: boolean = false;
-    private crawler?: Crawler;
-    private robots?: Robots;
+    public seen;
+    public initialised: boolean = false;
+    public crawler?: Crawler;
+    public robots?: Robots;
     public domain: URL;
-    private crawlerOptions: CreateCrawlerOptions;
+    public crawlerOptions: CreateCrawlerOptions;
+    public webSite: WebSite = { "@type": "WebSite" };
+    public organization: Organization;
 
     constructor(domain: URL, crawlerOptions: CreateCrawlerOptions) {
         this.seen = new seenreq();
         this.domain = domain;
         this.crawlerOptions = crawlerOptions;
+        this.webSite.url = domain.href;
+        this.organization = { "@type": "Organization", url: this.domain.href };
+    }
+
+    public async start() {
+        await this.queue({ uri: this.domain.href })
     }
     
     public async queue(options: CrawlerRequestOptions): Promise<DomainCrawler> {
@@ -44,8 +56,8 @@ export abstract class DomainCrawler {
     private async initialise() {
         if (this.initialised) return;
         this.robots = await new Robots().useRobotsFor(this.domain);
-        const rateLimit = await this.robots.getCrawlDelay() || 10;
-        const maxConnections = 10;
+        const rateLimit = await this.robots.getCrawlDelay() || DEFAULT_CRAWL_DELAY;
+        const maxConnections = DEFAULT_MAX_CONNECTIONS;
         this.crawler = new Crawler({
             maxConnections,
             rateLimit: maxConnections * rateLimit,
@@ -61,6 +73,13 @@ export abstract class DomainCrawler {
             const handler = new Handler((error: Error | null, result: Result) => {
                 if (error) {
                     return reject(error);
+                }
+                if (response.request.uri.pathname === this.domain.pathname) {
+                    this.webSite.name = result.html?.title;
+                    this.webSite.description = result.html?.description;
+                    this.webSite.keywords = result.html?.keywords;
+                    this.webSite.sourceOrganization = this.organization;
+                    this.webSite.sameAs = this.domain.href;
                 }
                 return resolve(result);
             }, { url: response.request.uri.href });
