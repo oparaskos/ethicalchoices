@@ -1,6 +1,7 @@
 import { CrawlerRequestResponse, CreateCrawlerOptions } from "crawler";
 import { URL as SchemaURL, Thing } from "schema-dts";
 import { ThingBase, addToSchemaValue } from "./schema";
+import { writeFileSync } from "fs";
 import {
   analysePage,
   findProductInLinkedData,
@@ -88,19 +89,21 @@ export class MerchantCrawler extends DomainCrawler {
       product.identifier = addToSchemaValue(`urn:ethicalchoices:product:${esProductId}`, product.identifier);
       const esMerchantId = this.getId(this.merchant);
       product.identifier = addToSchemaValue(`urn:ethicalchoices:merchant:${esMerchantId}`, this.merchant.identifier);
-      this.esClient.index({
-        id: esMerchantId,
-        refresh: true,
-        index: "merchants",
-        body: this.merchant,
-      });
+      // this.esClient.index({
+      //   id: esMerchantId,
+      //   refresh: true,
+      //   index: "merchants",
+      //   body: this.merchant,
+      // });
+      writeFileSync(`out/merchant_${esMerchantId}.json`, JSON.stringify(this.merchant));
       this.log("Indexing Product", product.name);
-      this.esClient.index({
-        id: esProductId,
-        refresh: true,
-        index: "products",
-        body: product,
-      });
+      // this.esClient.index({
+      //   id: esProductId,
+      //   refresh: true,
+      //   index: "products",
+      //   body: product,
+      // });
+      writeFileSync(`out/product_${esProductId}.json`, JSON.stringify(product));
     } catch (e) {
       this.onError(e);
     }

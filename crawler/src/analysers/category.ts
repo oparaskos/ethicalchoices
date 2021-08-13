@@ -50,7 +50,7 @@ function findSicManufacturingCategory(productName: string, productDescription: s
         .split(/\s+/)
         .filter((it) => it.length > 3)
         .filter((v, i, a) => a.indexOf(v) === i);
-    console.debug(corpus);
+    // console.debug(corpus);
     let matchedCategories = [];
     // Division 10: Manufacture of food products
     // Group 10.1: Processing and preserving of meat and production of meat products
@@ -124,7 +124,7 @@ function findSicManufacturingCategory(productName: string, productDescription: s
     if (electricalSynonyms.some(it => corpus.indexOf(it) !== -1)) matchedCategories.push('27');
     // Division 31: Manufacture of furniture
     if (furnitureSynonyms.some(it => corpus.indexOf(it) !== -1)) matchedCategories.push('31');
-    console.debug({ matchedCategories });
+    // console.debug({ matchedCategories });
     // Fix-up matches in multiple categories for beverages
     if (matchedCategories
         .find(it => it.startsWith('11') && it != '11.07')) {

@@ -55,7 +55,8 @@ export abstract class DomainCrawler {
 
     private async initialise() {
         if (this.initialised) return;
-        this.robots = await new Robots().useRobotsFor(this.domain);
+        if (!this.robots)
+            this.robots = await new Robots().useRobotsFor(this.domain);
         const rateLimit = await this.robots.getCrawlDelay() || DEFAULT_CRAWL_DELAY;
         const maxConnections = DEFAULT_MAX_CONNECTIONS;
         this.crawler = new Crawler({

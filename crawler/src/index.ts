@@ -5,7 +5,7 @@ const domains = [
   /// Food & Drink
   // "https://www.brewdog.com/",
   // "https://www.majestic.co.uk/",
-  "https://www.quorn.co.uk/",
+  // "https://www.quorn.co.uk/",
   // "https://birdandwild.co.uk/",
   // "https://nudefood.co.uk/",
   // "https://www.naturli-foods.com/",
@@ -30,7 +30,7 @@ const domains = [
   // "https://www.petsathome.com/",
   
   /// Fashion
-  "https://www.weirdfish.co.uk/",
+  // "https://www.weirdfish.co.uk/",
   // "https://uk.oneill.com/",
   // "https://www.fjallraven.com/",
   // "https://www.seasaltcornwall.co.uk/",

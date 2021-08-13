@@ -1,1 +1,3 @@
-*.jsonnd
+out/*
+!out/.GITKEEP
+
