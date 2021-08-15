@@ -1,0 +1,7 @@
+server {
+    listen       ${NGINX_PORT};
+
+    location /api/products {
+        proxy_pass http://elasticsearch1:9200/products/_search;
+    }
+}

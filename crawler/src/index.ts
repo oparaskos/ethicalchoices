@@ -3,7 +3,7 @@ import { MerchantCrawler } from "./MerchantCrawler";
 
 const domains = [
   /// Food & Drink
-  // "https://www.brewdog.com/",
+  "https://www.brewdog.com/",
   // "https://www.majestic.co.uk/",
   // "https://www.quorn.co.uk/",
   // "https://birdandwild.co.uk/",
@@ -59,5 +59,5 @@ const domains = [
   // "https://www.adidas.co.uk/", -- Same agin
 ]
   .map((d) => new URL(d))
-  .map((domain) => new MerchantCrawler(domain, '', '', { recurse: true }))
+  .map((domain) => new MerchantCrawler(domain, '', { recurse: true }))
   .map(crawler => crawler.start().then(_ => crawler.waitFor()));
