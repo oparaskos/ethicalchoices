@@ -23,7 +23,7 @@
     "require-dir": "^1.2.0",
     "robots-parser": "^2.3.0",
     "robots-txt-parser": "^1.0.9",
-    "schema-dts": "^0.8.2",
+    "schema-dts": "^0.10.0",
     "seenreq": "^3.0.0"
   },
   "devDependencies": {
