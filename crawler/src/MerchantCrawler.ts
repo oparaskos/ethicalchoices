@@ -15,6 +15,7 @@ import { Merchant } from "./Merchant";
 import { Product } from "./Product";
 import { Result } from "htmlmetaparser";
 import { normaliseProduct } from "./normaliseProduct";
+import slugify from "slugify";
 
 export class MerchantCrawler extends DomainCrawler {
   private esClient = new Client({ node: "http://localhost:9200" });
@@ -141,8 +142,17 @@ export class MerchantCrawler extends DomainCrawler {
   }
 
   public getId(product: ThingBase): string {
-    const a = product.name?.toString() || "";
-    const b = product.url?.toString() || "";
-    return Buffer.from(`${a}:${b}`).toString("base64url");
+    const partA = (this.merchant?.name?.toString() || this.domain.host.toString()).replace(/^(www\d?|store|shop)\./i, '');
+    const init_string = [
+      partA.split('.')[0],
+      product.name?.toString() || product.url?.toString() || JSON.stringify(product)
+    ].join(' ');
+    return slugify(init_string, {
+      replacement: '_',  // replace spaces with replacement character, defaults to `-`
+      remove: /[*+~.()'"!:@]/g, // remove characters that match regex, defaults to `undefined`
+      lower: true,      // convert to lower case, defaults to `false`
+      strict: true,     // strip special characters except replacement, defaults to `false`
+      locale: 'en'       // language code of the locale to use
+    });
   }
 }

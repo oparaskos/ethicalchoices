@@ -24,7 +24,8 @@
     "robots-parser": "^2.3.0",
     "robots-txt-parser": "^1.0.9",
     "schema-dts": "^0.8.2",
-    "seenreq": "^3.0.0"
+    "seenreq": "^3.0.0",
+    "slugify": "^1.6.0"
   },
   "devDependencies": {
     "@types/crawler": "^1.2.1",

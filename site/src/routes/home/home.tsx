@@ -1,5 +1,5 @@
 import React from 'react';
-import { EMAIL_SUPPORT, ROUTE_PRODUCTS } from '..';
+import { EMAIL_SUPPORT, ROUTE_PRODUCTS, ROUTE_GUIDE } from '..';
 
 export function HomePage() {
   return (
@@ -23,7 +23,10 @@ export function HomePage() {
         <h2>I want to feature my product here</h2>
         <p>
           Wherever possible the information in this database is collected
-          directly from retailers. For more information <a>click here</a>.
+          directly from retailers. For more information
+          <a href={ROUTE_GUIDE}>click here</a>.
+        </p>
+        <p>
           If the carbon footprint is already available on your site and is
           marked up ready to be found it should be picked up automatically.
         </p>
@@ -33,7 +36,7 @@ export function HomePage() {
         <p>
           To learn more about how to make sure that our crawler can read
           and understand your product page correctly and accurately please
-          see our <a>Guide</a>.
+          see our <a href={ROUTE_GUIDE}>Guide</a>.
         </p>
       </section>
       <section>
