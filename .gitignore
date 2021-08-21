@@ -3,3 +3,5 @@ dist/
 *.js
 esdata1/*
 !esdata1/.GITKEEP
+.terraform/
+.terraform.*
