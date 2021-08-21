@@ -28,6 +28,12 @@ resource "aws_cloudfront_distribution" "cdn" {
     target_origin_id       = aws_s3_bucket.site.bucket_domain_name
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
+    forwarded_values {
+      query_string = false
+      cookies {
+        forward = "none"
+      }
+    }
     min_ttl                = 0
     default_ttl            = 0
     max_ttl                = 0
