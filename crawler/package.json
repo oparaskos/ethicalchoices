@@ -18,7 +18,7 @@
     "encoding": "^0.1.13",
     "htmlmetaparser": "^2.1.2",
     "is-absolute-url": "^3.0.3",
-    "mocha": "^8.4.0",
+    "mocha": "^9.1.0",
     "node-fetch": "^2.6.1",
     "require-dir": "^1.2.0",
     "robots-parser": "^2.3.0",
