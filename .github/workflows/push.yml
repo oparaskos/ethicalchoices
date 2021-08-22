@@ -26,7 +26,7 @@ jobs:
       run: cd site && npm ci
 
     - name: Test
-      run: cd site && npm run test -- --watchAll=false 
+      run: cd site && npm run test 
 
     - name: Build
       run: cd site && npm run build --production
