@@ -1,5 +1,5 @@
 import React from 'react';
-import { EMAIL_SUPPORT, ROUTE_PRODUCTS, ROUTE_GUIDE } from '..';
+import { EMAIL_SUPPORT, ROUTE_PRODUCTS, ROUTE_GUIDE, ROUTE_INDEXING } from '..';
 import './home.scss';
 
 export function HomePage() {
@@ -30,7 +30,7 @@ export function HomePage() {
         <h2>I want to feature my product here</h2>
         <p>
           Wherever possible the information in this database is collected
-          directly from retailers. For more information
+          directly from retailers. For more information{' '}
           <a href={ROUTE_GUIDE}>click here</a>.
         </p>
         <p>
@@ -45,13 +45,17 @@ export function HomePage() {
           and understand your product page correctly and accurately please
           see our <a href={ROUTE_GUIDE}>Guide</a>.
         </p>
+        <form method="POST" action={ROUTE_INDEXING}>
+          <input name="url" type="url" placeholder="http://example.store/" />
+          <button type="submit" title="scan">👍</button>
+        </form>
       </section>
       <section id="problem">
         <h2>Something wrong?</h2>
         <p>
           If you've found inaccurate product information, do not want your
-          products featured here, or just want to chat reach out to us at
-          <a href={`mailto:${EMAIL_SUPPORT}`}>{EMAIL_SUPPORT}</a>.
+          products featured here, or just want to chat reach out to us{' '}
+          at <a href={`mailto:${EMAIL_SUPPORT}`}>{EMAIL_SUPPORT}</a>.
         </p>
       </section>
     </>

@@ -20,6 +20,12 @@ footer {
   width: 100%;
   height: 5rem;
   background: $color-black;
+  font-size: 0.9;
+  font-weight: lighter;
+  color: $color-white;
+  p:last-child {
+    margin: 0;
+  }
 }
 
 main {

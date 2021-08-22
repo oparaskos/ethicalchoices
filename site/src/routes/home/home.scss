@@ -21,3 +21,24 @@ section#search {
         }
     }
 }
+section#feature {
+    form {
+        display: flex;
+        flex-direction: row;
+        max-width: 480px;
+        border: 1px solid $color-silver;
+        border-radius: 0.5rem;
+        input, button {
+            border: none;
+            background: none;
+            height: 1.5rem;
+        }
+        input {
+            flex-grow: 1;
+            padding: 0 0.5rem;
+        }
+        button {
+            width: 1.5rem;
+        }
+    }
+}
