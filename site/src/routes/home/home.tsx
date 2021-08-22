@@ -15,6 +15,12 @@ export function HomePage() {
       <section id="about">
         <h2>About This Database</h2>
         <p>
+          The aim of this website is to allow consumers to make informed choices
+          about the products they choose to buy by highlighting ethical
+          considerations in the course of the search for a product, rather than
+          as difficult research.
+        </p>
+        <p>
           This database is compiled through the collection of multiple publicly
           available sources of data and uses a web crawler to try to keep up to
           date and provide the most accurate information possible.
