@@ -1,0 +1,61 @@
+on:
+  release:
+    types: [created]
+
+name: Release
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install Packages in Contact Form backend
+      run: cd contact && npm ci
+      
+    - name: Terraform Init
+      id: init
+      run: terraform -chdir=terraform/ init -no-color
+
+    - name: Terraform Apply
+      id: apply
+      run: terraform -chdir=terraform/ apply -no-color -auto-approve
+      
+    - uses: actions/upload-artifact@v2
+      with:
+        name: site-content
+        path: terraform/lambda.zip
+    
+    - name: Install Packages in Site
+      run: cd site && npm ci
+
+    - name: Build
+      run: cd site && npm run build --production
+      
+    - uses: actions/upload-artifact@v2
+      with:
+        name: site-content
+        path: site/build/
+
+    - name: Upload Site Content
+      id: upload
+      run: aws s3 sync site/build/ s3://ethicalchoices.xyz/
