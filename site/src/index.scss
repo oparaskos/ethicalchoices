@@ -1,0 +1,19 @@
+@import 'variables';
+
+body {
+  margin: 0;
+  @include font-body;
+  box-sizing: border-box;
+}
+
+code {
+  font-family: $font-mono;
+}
+
+h1 {
+  @include font-title;
+}
+
+section {
+  padding: 1rem 0;
+}

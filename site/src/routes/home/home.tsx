@@ -1,17 +1,18 @@
 import React from 'react';
 import { EMAIL_SUPPORT, ROUTE_PRODUCTS, ROUTE_GUIDE } from '..';
+import './home.scss';
 
 export function HomePage() {
   return (
-    <div>
-      <section>
+    <>
+      <section id="search">
         <h1>Ethical Choices</h1>
         <form method="GET" action={ROUTE_PRODUCTS}>
           <input name="q" type="search" />
-          <button>Search</button>
+          <button type="submit" title="search">🔍</button>
         </form>
       </section>
-      <section>
+      <section id="about">
         <h2>About This Database</h2>
         <p>
           This database is compiled through the collection of multiple publicly
@@ -19,7 +20,7 @@ export function HomePage() {
           date and provide the most accurate information possible.
         </p>
       </section>
-      <section>
+      <section id="feature">
         <h2>I want to feature my product here</h2>
         <p>
           Wherever possible the information in this database is collected
@@ -39,7 +40,7 @@ export function HomePage() {
           see our <a href={ROUTE_GUIDE}>Guide</a>.
         </p>
       </section>
-      <section>
+      <section id="problem">
         <h2>Something wrong?</h2>
         <p>
           If you've found inaccurate product information, do not want your
@@ -47,6 +48,6 @@ export function HomePage() {
           <a href={`mailto:${EMAIL_SUPPORT}`}>{EMAIL_SUPPORT}</a>.
         </p>
       </section>
-    </div>
+    </>
   );
 }

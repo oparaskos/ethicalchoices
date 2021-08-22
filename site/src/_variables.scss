@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+$font-title: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+$font-heading: $font-title;
+$font-body: $font-title;
+
+$font-mono: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+
+$content-max-width: 940px;
+
+@mixin font-body {
+    font-family: $font-body;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin font-heading {
+    font-family: $font-heading;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin font-title {
+    font-family: $font-title;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 3rem;
+    text-align: center;
+}
+
+// Greens
+$color-turquoise: #1ABC9C;
+$color-green-sea: #16A085;
+$color-emerald: #2ECC71;
+$color-nephritis: #27AE60;
+
+// Blues
+$color-peter-river: #3498DB;
+$color-belize-hole: #2980B9;
+$color-wet-asphalt: #34495E;
+$color-midnight-blue: #2C3E50;
+
+// Purples
+$color-amethyst: #9B59B6;
+$color-wisteria: #8E44AD;
+
+// Yellows
+$color-sunflower: #F1C40F;
+
+// Oranges
+$color-orange: #F39C12;
+$color-carrot: #E67E22;
+$color-pumpkin: #D35400;
+
+// Reds
+$color-alizarin: #E74C3C;
+$color-pomegranate: #C0392B;
+
+// Grays
+$color-clouds: #ECF0F1;
+$color-silver: #BDC3C7;
+$color-concrete: #95A5A6;
+$color-asbestos: #7F8C8D;
+
+$color-black: #0a0a0a;
+$color-white: #fafafa;

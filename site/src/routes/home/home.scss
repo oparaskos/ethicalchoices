@@ -1,0 +1,23 @@
+@import '../../_variables.scss';
+
+section#search {
+    form {
+        display: flex;
+        flex-direction: row;
+        margin: auto;
+        max-width: 480px;
+        border: 1px solid $color-silver;
+        border-radius: 0.5rem;
+        input, button {
+            border: none;
+            background: none;
+            height: 3rem;
+        }
+        input {
+            flex-grow: 1;
+        }
+        button {
+            width: 3rem;
+        }
+    }
+}
