@@ -2,6 +2,12 @@ resource "aws_s3_bucket" "site" {
   bucket = var.domain
 }
 
+resource "aws_s3_bucket_public_access_block" "block-public-access" {
+	bucket = aws_s3_bucket.site.id
+	block_public_acls   = true
+	block_public_policy = true
+}
+
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
   comment = "access-identity-${var.domain}.s3.amazonaws.com"
 }

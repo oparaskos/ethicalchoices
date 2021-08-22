@@ -25,7 +25,7 @@ export default (result: Result, res: CrawlerRequestResponse, product: Product) =
     if (packSizeContainer) {
         weight = packSizeContainer;
     }
-    const re = new RegExp(`${product.name}\s*[\(\)\[\]]?\d+(k?g)`, 'ig');
+    const re = new RegExp(`${product.name}\\s*[\\(\\)\\[\\]]?\\d+(k?g)`, 'ig');
 
     res.$(`:contains("${product.name}")`).each((k, v) => {
         const match = res.$(v).text().match(re)
