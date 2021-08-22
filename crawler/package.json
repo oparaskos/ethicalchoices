@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "ts-node src/index.ts",
+    "build": "mkdir build && touch .blah",
     "test": "mocha -r ts-node/register src/**/*.spec.ts"
   },
   "author": "",

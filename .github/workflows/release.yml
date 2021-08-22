@@ -29,9 +29,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Install Packages in Contact Form backend
-      run: cd contact && npm ci
-      
     - name: Terraform Init
       id: init
       run: terraform -chdir=terraform/ init -no-color
@@ -40,11 +37,6 @@ jobs:
       id: apply
       run: terraform -chdir=terraform/ apply -no-color -auto-approve
       
-    - uses: actions/upload-artifact@v2
-      with:
-        name: site-content
-        path: terraform/lambda.zip
-    
     - name: Install Packages in Site
       run: cd site && npm ci
 
