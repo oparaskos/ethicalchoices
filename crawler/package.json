@@ -1,15 +1,22 @@
 {
-  "name": "product-crawler",
+  "name": "crawler.ethicalchoices.xyz",
   "version": "1.0.0",
-  "description": "",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "Oliver Paraskos",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oparaskos/ethicalchoices.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oparaskos/ethicalchoices/issues"
+  },
   "main": "src/index.ts",
   "scripts": {
     "start": "ts-node src/index.ts",
     "build": "mkdir build && touch .blah",
-    "test": "mocha -r ts-node/register src/**/*.spec.ts"
+    "test": "mocha -r ts-node/register src/**/*.spec.ts && license-to-fail"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@elastic/elasticsearch": "^7.14.0",
     "@types/chai-http": "^4.2.0",
@@ -35,7 +42,43 @@
     "@types/mocha": "^8.2.2",
     "@types/node-fetch": "^2.5.10",
     "chai": "^4.3.4",
+    "license-to-fail": "^4.0.0",
     "ts-node": "^10.2.1",
     "typescript": "^4.3.5"
+  },
+  "license-to-fail": {
+    "allowedLicenses": [
+      "ISC",
+      "MIT",
+      "Apache2",
+      "Apache-2.0",
+      "0BSD",
+      "AFLv2.1,BSD",
+      "BSD*",
+      "BSD-2-Clause",
+      "BSD-3-Clause",
+      "BSD-4-Clause",
+      "MIT*",
+      "BSD",
+      "AFLv2.1,BSD",
+      "Public Domain",
+      "MIT/X11",
+      "(WTFPL OR MIT)",
+      "MIT,Apache2",
+      "(BSD-2-Clause OR GPL-2.0)",
+      "(BSD-2-Clause OR MIT OR Apache-2.0)",
+      "Apache License, Version 2.0",
+      "(MIT AND CC-BY-3.0)",
+      "Unlicense",
+      "MIT / http://rem.mit-license.org",
+      "WTFPL",
+      "CC-BY-3.0",
+      "CC-BY-4.0",
+      "CC0-1.0",
+      "Unlicense",
+      "MPL-2.0",
+      "ODC-By-1.0",
+      "Python-2.0"
+    ]
   }
 }

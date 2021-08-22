@@ -16,6 +16,7 @@ describe("Structured Product Composition", () => {
         description: input,
         isOrganic: true,
         weight: {
+          "@type": "QuantitativeValue",
           unitCode: "P1",
           unitText: "%",
           value: 100,
@@ -32,6 +33,7 @@ describe("Structured Product Composition", () => {
         name: "cotton",
         description: '75% Cotton',
         weight: {
+          "@type": "QuantitativeValue",
           unitCode: "P1",
           unitText: "%",
           value: 75,
@@ -41,6 +43,7 @@ describe("Structured Product Composition", () => {
         name: "polyester",
         description: '10% Polyester',
         weight: {
+          "@type": "QuantitativeValue",
           unitCode: "P1",
           unitText: "%",
           value: 10,
@@ -51,12 +54,13 @@ describe("Structured Product Composition", () => {
 
   it("should convert percent to mass when pack mass is known ", () => {
     const input = "10% Polyester";
-    const output = decompose(input, { weight: "100g" });
+    const output = decompose(input, { weight: "100g" } as any);
     expect(output).to.deep.equal([
       {
         name: "polyester",
         description: input,
         weight: {
+          "@type": "QuantitativeValue",
           unitText: "g",
           unitCode: "GRM",
           value: 10,
