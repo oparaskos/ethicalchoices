@@ -7,7 +7,7 @@
 
 - [📚 Code Repository](https://github.com/oparaskos/ethicalchoices "Ethical Choices Repo")
 - [🐞 Bugs, Issues and Tasks](https://github.com/oparaskos/ethicalchoices/issues "Issues Page")
-- [🦕 Live Site (🔨 TODO)](https://ethicalchoices.xyz "Live View")
+- [🦕 Live Site](https://ethicalchoices.xyz "Live View")
 - [🧫 API (🔨 TODO)](https://ethicalchoices.xyz/api "API")
 
 ## 📷 Screenshots
