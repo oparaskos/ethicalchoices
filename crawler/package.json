@@ -39,7 +39,7 @@
     "@types/crawler": "^1.2.2",
     "@types/htmlparser2": "^3.10.3",
     "@types/is-absolute-url": "^3.0.0",
-    "@types/mocha": "^8.2.2",
+    "@types/mocha": "^9.0.0",
     "@types/node-fetch": "^2.5.10",
     "chai": "^4.3.4",
     "license-to-fail": "^4.0.0",
