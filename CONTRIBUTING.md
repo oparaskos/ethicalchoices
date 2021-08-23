@@ -135,7 +135,7 @@ While the prerequisites above must be satisfied prior to having your pull reques
 * _Preferably_ Use the present tense ("Add feature" not "Added feature")
 * _Preferably_ Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
 * _Preferably_ Limit the first line to 72 characters or less
-* _Reference issues and pull requests_ liberally after the first line (`:memo: #1 Completed Example Ticket`)
+* _Reference issues and pull requests_ liberally after the first line (`:memo: #1 Complete Example Ticket`)
 * _Consider_ starting the commit message with an applicable emoji:
     * :art: `:art:` when improving the format/structure of the code
     * :racehorse: `:racehorse:` when improving performance
