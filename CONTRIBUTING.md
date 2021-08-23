@@ -87,7 +87,7 @@ Before creating enhancement suggestions, please check [this list](#before-submit
 
 #### Before Submitting An Enhancement Suggestion
 
-* **Perform a [cursory search](https://github.com/oparaskos/ethicalchoices/labels/enhancement)** to see if the enhancement has already been suggested. If it has, add a comment to, and 👍🏼 the existing issue instead of opening a new one.
+* **Perform a [cursory search](https://github.com/oparaskos/ethicalchoices/labels/enhancement)** to see if the enhancement has already been suggested. If it has, add a comment to, and :+1: the existing issue instead of opening a new one.
 
 #### How Do I Submit A (Good) Enhancement Suggestion?
 
@@ -132,12 +132,11 @@ While the prerequisites above must be satisfied prior to having your pull reques
 
 ### Git Commit Messages
 
-* Use the present tense ("Add feature" not "Added feature")
-* Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
-* Limit the first line to 72 characters or less
-* Reference issues and pull requests liberally after the first line
-* When only changing documentation, include `[ci skip]` in the commit title
-* Consider starting the commit message with an applicable emoji:
+* _Preferably_ Use the present tense ("Add feature" not "Added feature")
+* _Preferably_ Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
+* _Preferably_ Limit the first line to 72 characters or less
+* _Reference issues and pull requests_ liberally after the first line (`:memo: #1 Completed Example Ticket`)
+* _Consider_ starting the commit message with an applicable emoji:
     * :art: `:art:` when improving the format/structure of the code
     * :racehorse: `:racehorse:` when improving performance
     * :non-potable_water: `:non-potable_water:` when plugging memory leaks
