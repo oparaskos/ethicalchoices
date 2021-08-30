@@ -31,7 +31,7 @@
     "require-dir": "^1.2.0",
     "robots-parser": "^2.3.0",
     "robots-txt-parser": "^2.0.2",
-    "schema-dts": "^0.11.0",
+    "schema-dts": "^1.0.0",
     "seenreq": "^3.0.0",
     "slugify": "^1.6.0"
   },
