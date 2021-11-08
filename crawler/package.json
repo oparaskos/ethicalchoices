@@ -33,7 +33,7 @@
     "robots-txt-parser": "^2.0.2",
     "schema-dts": "^1.0.0",
     "seenreq": "^3.0.0",
-    "slugify": "^1.6.0"
+    "slugify": "^1.6.2"
   },
   "devDependencies": {
     "@types/crawler": "^1.2.2",
